@@ -34,17 +34,26 @@ public class TicTacToeListener extends ListenerAdapter {
     }
 
     private void handleAIGame(AITTTGame game, ButtonClickEvent event) {
+
+        // Get the location of button the user clicked.
         int y = Integer.parseInt(event.getButton().getId().substring(0, 1));
         int x = Integer.parseInt(event.getButton().getId().substring(1, 2));
+
+        //Update given value.
         game.updateGrid(x, y, -10);
+
         if (game.isFinished(game.copyGrid())) {
             handleFinish(game, event);
             return;
         }
+
+        // Let AI predict next move
         game.nextMove();
+
         if (game.isFinished(game.copyGrid())) {
             handleFinish(game, event);
         } else {
+            // Upload image, and then update the Embed and the buttons.
             event.getJDA().getTextChannelById(IMAGE_CHANNEL).sendFile(game.getAsImage(), "image.png").queue(success -> {
                 event.editMessageEmbeds(
                         EmbedProvider.getTTTBuilder()
@@ -58,6 +67,8 @@ public class TicTacToeListener extends ListenerAdapter {
     }
 
     private void handleFinish(AITTTGame game, ButtonClickEvent event) {
+
+        // Upload image, and then update the Embed and the buttons.
         event.getJDA().getTextChannelById(IMAGE_CHANNEL).sendFile(game.getAsImage(), "image.png").queue(success -> {
             event.editMessageEmbeds(
                     EmbedProvider.getTTTBuilder()

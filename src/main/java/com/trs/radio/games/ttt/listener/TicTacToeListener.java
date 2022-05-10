@@ -13,6 +13,7 @@ public class TicTacToeListener extends ListenerAdapter {
 
     private final TTTRepository repository;
 
+    private final static long IMAGE_CHANNEL = 973307423345500163L;
     public TicTacToeListener(TTTRepository repository) {
         this.repository = repository;
     }
@@ -44,7 +45,7 @@ public class TicTacToeListener extends ListenerAdapter {
         if (game.isFinished(game.copyGrid())) {
             handleFinish(game, event);
         } else {
-            event.getJDA().getTextChannelById(973307423345500163L).sendFile(game.getAsImage(), "image.png").queue(success -> {
+            event.getJDA().getTextChannelById(IMAGE_CHANNEL).sendFile(game.getAsImage(), "image.png").queue(success -> {
                 event.editMessageEmbeds(
                         EmbedProvider.getTTTBuilder()
                                 .setImage(success.getAttachments().get(0).getUrl())
@@ -57,7 +58,7 @@ public class TicTacToeListener extends ListenerAdapter {
     }
 
     private void handleFinish(AITTTGame game, ButtonClickEvent event) {
-        event.getJDA().getTextChannelById(973307423345500163L).sendFile(game.getAsImage(), "image.png").queue(success -> {
+        event.getJDA().getTextChannelById(IMAGE_CHANNEL).sendFile(game.getAsImage(), "image.png").queue(success -> {
             event.editMessageEmbeds(
                     EmbedProvider.getTTTBuilder()
                             .setImage(success.getAttachments().get(0).getUrl())
